@@ -23,7 +23,6 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      // e.currentTarget ensures we get the form element
       const formData = new FormData(e.currentTarget);
       formData.append("access_key", "79b9c84c-fdb3-42d0-9b5d-d89be97ef17a");
 
@@ -36,11 +35,11 @@ export default function Contact() {
       
       if (data.success) {
         (e.target as HTMLFormElement).reset();
-        setShowToast(true); // Trigger our custom Framer Motion success popup
-        setTimeout(() => setShowToast(false), 4000); // Hide after 4 seconds
+        setShowToast(true); 
+        setTimeout(() => setShowToast(false), 4000); 
       } else {
         console.error("Form error:", data);
-        alert("Something went wrong. Please try again."); // Fallback error state
+        alert("Something went wrong. Please try again."); 
       }
     } catch (error) {
       console.error("Network error:", error);
@@ -136,31 +135,36 @@ export default function Contact() {
                   className="group relative p-1 rounded-2xl bg-gradient-to-br from-[var(--border-color)] to-transparent hover:to-[var(--primary)]/20 transition-all duration-500"
                 >
                   <div className="absolute inset-0 bg-[var(--card-bg)] backdrop-blur-xl rounded-2xl m-[1px] -z-10" />
-                  <div className="flex items-center justify-between p-5 rounded-xl">
+                  {/* Changed layout on extra small screens to stack items if needed */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between p-5 rounded-xl gap-4 sm:gap-0">
                     <div className="flex items-center gap-4">
-                      <div className={`p-3 rounded-full ${method.bg}`}>
+                      <div className={`p-3 rounded-full shrink-0 ${method.bg}`}>
                         <Icon className={`w-6 h-6 ${method.color}`} />
                       </div>
-                      <div>
+                      <div className="min-w-0"> {/* Added min-w-0 to allow text truncation/wrapping */}
                         <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-1">{method.label}</p>
-                        <p className="text-[var(--foreground)] font-semibold text-lg tracking-wide">{method.value}</p>
+                        {/* Added break-all for long emails on narrow mobile screens */}
+                        <p className="text-[var(--foreground)] font-semibold text-base sm:text-lg tracking-wide break-all sm:break-normal">{method.value}</p>
                       </div>
                     </div>
-                    {/* Action Buttons - ADDED suppressHydrationWarning HERE */}
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    
+                    {/* Action Buttons - CRITICAL FIX: opacity-100 on mobile, fade in on desktop hover */}
+                    <div className="flex items-center gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 self-end sm:self-auto">
                       <button 
                         onClick={() => handleCopy(method.value, method.id)}
-                        className="p-2 rounded-lg bg-[var(--background)] border border-[var(--border-color)] hover:border-[var(--primary)] text-slate-500 hover:text-[var(--primary)] transition-all"
+                        className="p-3 sm:p-2 rounded-lg bg-[var(--background)] border border-[var(--border-color)] hover:border-[var(--primary)] text-slate-500 hover:text-[var(--primary)] transition-all active:scale-95"
                         suppressHydrationWarning
+                        aria-label="Copy to clipboard"
                       >
-                        {copiedField === method.id ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
+                        {copiedField === method.id ? <Check className="w-5 h-5 sm:w-4 sm:h-4 text-emerald-500" /> : <Copy className="w-5 h-5 sm:w-4 sm:h-4" />}
                       </button>
                       <a 
                         href={method.action} target="_blank" rel="noopener noreferrer"
-                        className="p-2 rounded-lg bg-[var(--background)] border border-[var(--border-color)] hover:border-[var(--primary)] text-slate-500 hover:text-[var(--primary)] transition-all"
+                        className="p-3 sm:p-2 rounded-lg bg-[var(--background)] border border-[var(--border-color)] hover:border-[var(--primary)] text-slate-500 hover:text-[var(--primary)] transition-all active:scale-95"
                         suppressHydrationWarning
+                        aria-label={`Open ${method.label}`}
                       >
-                        <ArrowUpRight className="w-4 h-4" />
+                        <ArrowUpRight className="w-5 h-5 sm:w-4 sm:h-4" />
                       </a>
                     </div>
                   </div>
@@ -175,7 +179,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="w-full lg:w-7/12 rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] backdrop-blur-sm p-8 md:p-10 relative overflow-hidden"
+            className="w-full lg:w-7/12 rounded-3xl border border-[var(--border-color)] bg-[var(--card-bg)] backdrop-blur-sm p-6 sm:p-8 md:p-10 relative overflow-hidden"
           >
             <form className="flex flex-col gap-8" onSubmit={handleSubmit} suppressHydrationWarning>
               <div className="relative group">
@@ -185,7 +189,7 @@ export default function Contact() {
                   placeholder=" "
                   suppressHydrationWarning
                 />
-                <label htmlFor="name" className="absolute left-0 top-3 text-slate-500 text-lg cursor-text peer-focus:text-xs peer-focus:-top-4 peer-focus:text-[var(--primary)] peer-valid:text-xs peer-valid:-top-4 transition-all duration-300">Your Name</label>
+                <label htmlFor="name" className="absolute left-0 top-3 text-slate-500 text-base sm:text-lg cursor-text peer-focus:text-xs peer-focus:-top-4 peer-focus:text-[var(--primary)] peer-valid:text-xs peer-valid:-top-4 transition-all duration-300">Your Name</label>
               </div>
 
               <div className="relative group">
@@ -195,7 +199,7 @@ export default function Contact() {
                   placeholder=" "
                   suppressHydrationWarning
                 />
-                <label htmlFor="email" className="absolute left-0 top-3 text-slate-500 text-lg cursor-text peer-focus:text-xs peer-focus:-top-4 peer-focus:text-[var(--primary)] peer-valid:text-xs peer-valid:-top-4 transition-all duration-300">Email Address</label>
+                <label htmlFor="email" className="absolute left-0 top-3 text-slate-500 text-base sm:text-lg cursor-text peer-focus:text-xs peer-focus:-top-4 peer-focus:text-[var(--primary)] peer-valid:text-xs peer-valid:-top-4 transition-all duration-300">Email Address</label>
               </div>
 
               <div className="relative group mt-2">
@@ -205,21 +209,17 @@ export default function Contact() {
                   placeholder=" "
                   suppressHydrationWarning
                 />
-                <label htmlFor="message" className="absolute left-0 top-3 text-slate-500 text-lg cursor-text peer-focus:text-xs peer-focus:-top-4 peer-focus:text-[var(--primary)] peer-valid:text-xs peer-valid:-top-4 transition-all duration-300">Project Details / Message</label>
+                <label htmlFor="message" className="absolute left-0 top-3 text-slate-500 text-base sm:text-lg cursor-text peer-focus:text-xs peer-focus:-top-4 peer-focus:text-[var(--primary)] peer-valid:text-xs peer-valid:-top-4 transition-all duration-300">Project Details / Message</label>
               </div>
 
-              {/* Added a honeypot field to prevent spam bots (Web3Forms feature) */}
               <input type="checkbox" name="botcheck" className="hidden" style={{ display: 'none' }} suppressHydrationWarning />
 
               <button 
                 type="submit" disabled={isSubmitting}
-                className="group relative cursor-pointer mt-4 inline-flex items-center justify-center w-full md:w-auto md:self-end px-8 py-4 rounded-full bg-[var(--foreground)] text-[var(--background)] font-semibold transition-all duration-300 hover:scale-105 disabled:opacity-70 disabled:hover:scale-100 overflow-hidden"
+                className="group relative cursor-pointer mt-4 inline-flex items-center justify-center w-full md:w-auto md:self-end px-8 py-4 rounded-full bg-[var(--foreground)] text-[var(--background)] font-semibold transition-all duration-300 hover:scale-105 active:scale-95 disabled:opacity-70 disabled:hover:scale-100 overflow-hidden"
                 suppressHydrationWarning
               >
-                {/* The Expanding Radial Background */}
                 <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] aspect-square rounded-full bg-[var(--primary)] transition-transform duration-500 ease-out scale-0 group-hover:scale-100 group-disabled:hidden z-0" />
-                
-                {/* The Text and Icon (z-10 keeps it above the expanding background) */}
                 <span className="relative z-10 flex items-center gap-2 group-hover:text-black dark:group-hover:text-white transition-colors duration-300">
                   {isSubmitting ? (
                     <>Sending... <Loader2 className="w-4 h-4 animate-spin" /></>
@@ -233,16 +233,16 @@ export default function Contact() {
         </div>
       </div>
 
-      {/* Success Popup (Toast Notification) */}
+      {/* Success Popup (Toast Notification) - Fixed positioning for mobile */}
       <AnimatePresence>
         {showToast && (
           <motion.div
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-8 right-8 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl bg-[var(--card-bg)] border border-emerald-500/30 shadow-2xl backdrop-blur-xl"
+            className="fixed bottom-4 left-4 right-4 md:left-auto md:right-8 md:bottom-8 z-50 flex items-center gap-3 px-6 py-4 rounded-2xl bg-[var(--card-bg)] border border-emerald-500/30 shadow-2xl backdrop-blur-xl md:max-w-sm mx-auto"
           >
-            <div className="p-2 rounded-full bg-emerald-500/20">
+            <div className="p-2 rounded-full bg-emerald-500/20 shrink-0">
               <Check className="w-5 h-5 text-emerald-500" />
             </div>
             <div>

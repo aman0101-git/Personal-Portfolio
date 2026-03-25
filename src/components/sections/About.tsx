@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Code2 } from "lucide-react";
 
 export default function About() {
-  // Use state to track hover, required for smooth framer-motion flips
+  // State to track manual click/tap toggles for mobile
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
@@ -36,29 +36,44 @@ export default function About() {
             viewport={{ once: false, amount: 0.2 }}
             transition={{ 
               duration: 0.8, 
-              delay: 0.2, // Slight delay for the dramatic entrance
-              ease: [0.16, 1, 0.3, 1] // Custom smooth easing
+              delay: 0.2, 
+              ease: [0.16, 1, 0.3, 1] 
             }}
             className="lg:col-span-5 flex justify-center lg:justify-start"
           >
-            {/* The Base Card Container */}
-            <div className="relative flex-shrink-0 group w-72 h-[360px] md:w-80 md:h-[400px] lg:w-96 lg:h-[480px] rounded-2xl overflow-hidden border-2 border-[var(--border-color)] bg-[var(--card-bg)] shadow-xl transition-all duration-300 hover:-translate-y-2 hover:border-[var(--primary)] hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]">
+            {/* The Base Card Container - ADDED onClick & DYNAMIC CLASSES */}
+            <div 
+              onClick={() => setIsFlipped(!isFlipped)}
+              className={`relative flex-shrink-0 group w-72 h-[360px] md:w-80 md:h-[400px] lg:w-96 lg:h-[480px] rounded-2xl overflow-hidden border-2 bg-[var(--card-bg)] transition-all duration-300 cursor-pointer ${
+                isFlipped 
+                  ? '-translate-y-2 border-[var(--primary)] shadow-[0_0_30px_rgba(0,240,255,0.4)]' 
+                  : 'border-[var(--border-color)] shadow-xl lg:hover:-translate-y-2 lg:hover:border-[var(--primary)] lg:hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]'
+              }`}
+            >
               
               {/* Background Image */}
               <Image
                 src="/profile1.jpg" 
                 alt="Aman Undre"
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className={`object-cover transition-transform duration-700 ${
+                  isFlipped ? 'scale-105' : 'lg:group-hover:scale-105'
+                }`}
                 sizes="(max-width: 768px) 288px, (max-width: 1024px) 320px, 384px"
                 priority
               />
 
               {/* Smooth Slide-Up Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-[var(--background)]/90 to-transparent opacity-0 translate-y-8 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out p-6 flex flex-col justify-end items-center text-center pb-8">
+              <div className={`absolute inset-0 bg-gradient-to-t from-[var(--background)] via-[var(--background)]/90 to-transparent transition-all duration-500 ease-out p-6 flex flex-col justify-end items-center text-center pb-8 ${
+                isFlipped 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-8 lg:group-hover:opacity-100 lg:group-hover:translate-y-0'
+              }`}>
                 
-                {/* Glowing Icon (Slides up slightly faster for a 3D feel) */}
-                <div className="p-3 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] mb-3 shadow-[0_0_15px_rgba(0,240,255,0.2)] transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-100">
+                {/* Glowing Icon */}
+                <div className={`p-3 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] mb-3 shadow-[0_0_15px_rgba(0,240,255,0.2)] transform transition-transform duration-500 delay-100 ${
+                  isFlipped ? 'translate-y-0' : 'translate-y-4 lg:group-hover:translate-y-0'
+                }`}>
                   <Code2 className="w-6 h-6" />
                 </div>
 
@@ -66,12 +81,16 @@ export default function About() {
                 <h3 className="text-2xl font-bold text-[var(--foreground)] tracking-tight">Aman Undre</h3>
                 <p className="text-md font-medium text-[var(--primary)] mb-3">Full-Stack SDE</p>
                 
-                <p className="text-sm text-slate-300 leading-relaxed px-2 mb-5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-200">
+                <p className={`text-sm text-slate-300 leading-relaxed px-2 mb-5 transition-opacity duration-500 delay-200 ${
+                  isFlipped ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'
+                }`}>
                   Building scalable internal systems, APIs, and robust UIs at Firstclose Solution.
                 </p>
 
-                {/* Tech Stack Pills (Fades in last) */}
-                <div className="flex flex-wrap justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-300">
+                {/* Tech Stack Pills */}
+                <div className={`flex flex-wrap justify-center gap-2 transition-opacity duration-500 delay-300 ${
+                  isFlipped ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'
+                }`}>
                   <span className="text-xs font-semibold px-3 py-1 bg-[var(--foreground)] text-[var(--background)] rounded-full">React.js</span>
                   <span className="text-xs font-semibold px-3 py-1 bg-[var(--foreground)] text-[var(--background)] rounded-full">Node.js</span>
                   <span className="text-xs font-semibold px-3 py-1 bg-[var(--foreground)] text-[var(--background)] rounded-full">Express.js</span>
