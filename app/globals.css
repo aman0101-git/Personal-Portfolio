@@ -34,12 +34,20 @@
     /* 1. This makes the page glide smoothly to sections */
     scroll-behavior: smooth; 
     
-    /* 2. This offsets the scroll so your 80px fixed Navbar doesn't hide the headings */
-    scroll-padding-top: 6rem; 
+    /* 2. Set to 0 because your sections already have 'py-24' (6rem padding).
+          6rem section padding - 5rem Navbar = 1rem perfect gap. */
+    scroll-padding-top: 0rem; 
+  }
+
+  /* DESKTOP: Add just a tiny bit of extra breathing room for larger screens */
+  @media (min-width: 768px) {
+    html {
+      scroll-padding-top: 1rem; 
+    }
   }
 }
 
-/* Add this anywhere in globals.css */
+/* Mask for Marquee Fades */
 .mask-image-fade {
   mask-image: linear-gradient(
     to right,
