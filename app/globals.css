@@ -1,66 +1,267 @@
 @import "tailwindcss";
 
+/* ============================================================
+   THEME TOKENS
+   Light mode: crisp porcelain whites, near-black ink, electric indigo accent.
+   Dark mode:  deep-space charcoal, cool moonlight foreground, neon cyan accent.
+   ============================================================ */
 @layer base {
-  /* LIGHT MODE: Clean, lots of whitespace, highly professional */
   :root {
-    --background: #ffffff;
-    --foreground: #0f172a; /* Dark slate text */
-    --primary: #2563eb; /* Professional Blue */
-    --card-bg: #f8fafc;
-    --border-color: #e2e8f0;
-    --glow: rgba(37, 99, 235, 0.15);
+    /* Surfaces */
+    --background: #fafafa;          /* Porcelain off-white */
+    --background-elevated: #ffffff;
+    --foreground: #0b1020;          /* Near-black ink */
+    --foreground-muted: #475569;
+
+    /* Accents */
+    --primary: #4f46e5;             /* Electric indigo */
+    --primary-soft: #6366f1;
+    --accent: #d946ef;              /* Premium magenta */
+    --accent-2: #06b6d4;            /* Cool cyan */
+
+    /* Surfaces - glass / cards */
+    --card-bg: rgba(255, 255, 255, 0.65);
+    --card-bg-solid: #ffffff;
+    --border-color: rgba(15, 23, 42, 0.08);
+    --border-strong: rgba(15, 23, 42, 0.18);
+
+    /* Glow */
+    --glow: rgba(79, 70, 229, 0.28);
+    --glow-soft: rgba(79, 70, 229, 0.12);
+
+    /* Mesh gradient stops */
+    --mesh-1: rgba(99, 102, 241, 0.35);
+    --mesh-2: rgba(217, 70, 239, 0.22);
+    --mesh-3: rgba(6, 182, 212, 0.22);
   }
 
-  /* DARK MODE: Sleek, Neon accents */
   .dark {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --primary: #00f0ff; /* Neon Cyber Blue */
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --border-color: rgba(255, 255, 255, 0.1);
-    --glow: rgba(0, 240, 255, 0.4);
+    /* Surfaces */
+    --background: #05060a;          /* Deep space */
+    --background-elevated: #0b0d14;
+    --foreground: #e6e9f2;          /* Cool moonlight */
+    --foreground-muted: #94a3b8;
+
+    /* Accents */
+    --primary: #22d3ee;             /* Neon cyan */
+    --primary-soft: #67e8f9;
+    --accent: #a855f7;              /* Violet */
+    --accent-2: #f472b6;             /* Pink */
+
+    /* Surfaces - glass / cards */
+    --card-bg: rgba(255, 255, 255, 0.04);
+    --card-bg-solid: #0b0d14;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-strong: rgba(255, 255, 255, 0.18);
+
+    /* Glow */
+    --glow: rgba(34, 211, 238, 0.45);
+    --glow-soft: rgba(34, 211, 238, 0.15);
+
+    /* Mesh gradient stops */
+    --mesh-1: rgba(34, 211, 238, 0.35);
+    --mesh-2: rgba(168, 85, 247, 0.28);
+    --mesh-3: rgba(244, 114, 182, 0.22);
   }
 }
 
+/* ============================================================
+   BASE
+   ============================================================ */
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
   body {
     background-color: var(--background);
     color: var(--foreground);
-    /* Smooth transition when clicking the toggle button */
-    transition: background-color 0.3s ease, color 0.3s ease; 
-  }
-  
-  html {
-    /* 1. This makes the page glide smoothly to sections */
-    scroll-behavior: smooth; 
-    
-    /* 2. Set to 0 because your sections already have 'py-24' (6rem padding).
-          6rem section padding - 5rem Navbar = 1rem perfect gap. */
-    scroll-padding-top: 0rem; 
+    transition: background-color 0.4s ease, color 0.4s ease;
+    overflow-x: hidden;
   }
 
-  /* DESKTOP: Add just a tiny bit of extra breathing room for larger screens */
+  /* Custom selection */
+  ::selection {
+    background: var(--primary);
+    color: var(--background);
+  }
+
+  /* Custom scrollbar (desktop only) */
   @media (min-width: 768px) {
-    html {
-      scroll-padding-top: 1rem; 
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-strong);
+      border-radius: 999px;
+      border: 2px solid var(--background);
     }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
   }
 }
 
-/* Mask for Marquee Fades */
+/* ============================================================
+   REUSABLE UTILITY CLASSES (theme aware, glass, glow, mesh)
+   ============================================================ */
+
+/* Marquee fade mask */
 .mask-image-fade {
-  mask-image: linear-gradient(
-    to right,
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* Glassmorphism surface */
+.glass {
+  background: var(--card-bg);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid var(--border-color);
+}
+
+.glass-strong {
+  background: color-mix(in oklab, var(--card-bg) 80%, var(--background) 20%);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--border-strong);
+}
+
+/* Neon focus ring for inputs / buttons */
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--background), 0 0 0 4px var(--primary);
+}
+
+/* Hide scrollbar utility (used by carousels) */
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Premium gradient text */
+.gradient-text {
+  background-image: linear-gradient(
+    120deg,
+    var(--primary) 0%,
+    var(--accent) 50%,
+    var(--accent-2) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Subtle dot-grid background (used in Projects canvas) */
+.dot-grid {
+  background-image: radial-gradient(circle at 1px 1px, var(--foreground) 1px, transparent 0);
+  background-size: 28px 28px;
+  opacity: 0.05;
+}
+.dark .dot-grid { opacity: 0.08; }
+
+/* ============================================================
+   ANIMATED MESH GRADIENT (Hero / Contact backdrop)
+   Three soft conic-radial blobs that drift slowly — GPU friendly.
+   ============================================================ */
+.mesh-bg {
+  position: absolute;
+  inset: -20%;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  filter: blur(60px) saturate(120%);
+}
+.mesh-bg::before,
+.mesh-bg::after,
+.mesh-bg > span {
+  content: "";
+  position: absolute;
+  width: 55vmax;
+  height: 55vmax;
+  border-radius: 50%;
+  will-change: transform;
+}
+.mesh-bg::before {
+  top: -10%;
+  left: -10%;
+  background: radial-gradient(circle at center, var(--mesh-1), transparent 60%);
+  animation: meshDrift1 22s ease-in-out infinite alternate;
+}
+.mesh-bg::after {
+  bottom: -15%;
+  right: -10%;
+  background: radial-gradient(circle at center, var(--mesh-2), transparent 60%);
+  animation: meshDrift2 28s ease-in-out infinite alternate;
+}
+.mesh-bg > span {
+  top: 30%;
+  left: 40%;
+  background: radial-gradient(circle at center, var(--mesh-3), transparent 60%);
+  animation: meshDrift3 32s ease-in-out infinite alternate;
+}
+
+@keyframes meshDrift1 {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(8vw,6vh,0) scale(1.15); }
+}
+@keyframes meshDrift2 {
+  0%   { transform: translate3d(0,0,0) scale(1.1); }
+  100% { transform: translate3d(-10vw,-8vh,0) scale(1); }
+}
+@keyframes meshDrift3 {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  100% { transform: translate3d(6vw,-10vh,0) scale(1.2); }
+}
+
+/* ============================================================
+   GLOWING ORBS (decorative; cheaper than mesh on mobile)
+   ============================================================ */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: -1;
+  will-change: transform, opacity;
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0) translateX(0); }
+  50%      { transform: translateY(-24px) translateX(12px); }
+}
+.animate-float-slow { animation: float-slow 9s ease-in-out infinite; }
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
     transparent,
-    black 10%,
-    black 90%,
+    color-mix(in oklab, var(--primary) 30%, transparent),
     transparent
   );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    black 10%,
-    black 90%,
-    transparent
-  );
+  background-size: 200% 100%;
+  animation: shimmer 2.4s linear infinite;
+}
+
+/* Soft pulse used for the "Available" status dot */
+@keyframes soft-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6); }
+  50%      { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0);   }
+}
+.animate-soft-pulse { animation: soft-pulse 2s ease-out infinite; }
+
+/* ============================================================
+   ACCESSIBILITY — reduced motion: kill expensive animations.
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .mesh-bg::before, .mesh-bg::after, .mesh-bg > span { animation: none !important; }
 }

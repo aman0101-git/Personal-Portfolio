@@ -1,142 +1,191 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
-import { Code2 } from "lucide-react";
+import { Code2, MapPin, GraduationCap, Layers } from "lucide-react";
+
+/* --------------------------------------------------------------
+   ASYMMETRIC GRID — on desktop we use a 12-col layout where the
+   profile card takes 5 columns and rises slightly, while the
+   narrative takes 7 columns and sits lower. Stats card breaks the
+   grid to span across both columns at the bottom.
+   -------------------------------------------------------------- */
+
+const reveal: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { delay: i * 0.08, duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+  }),
+};
+
+const stats = [
+  { value: "50+", label: "Daily Users Served", icon: Layers },
+  { value: "3", label: "Production Platforms", icon: Code2 },
+  { value: "2025", label: "Year of Graduation", icon: GraduationCap },
+  { value: "Pune, IN", label: "Based In", icon: MapPin },
+];
 
 export default function About() {
-  // State to track manual click/tap toggles for mobile
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <section id="about" className="py-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Section Heading */}
+    <section id="about" className="relative py-24 md:py-32 overflow-hidden">
+      <div
+        className="orb"
+        style={{
+          top: "20%",
+          right: "-10%",
+          width: "32vmax",
+          height: "32vmax",
+          background: "radial-gradient(circle, var(--mesh-1), transparent 70%)",
+          opacity: 0.3,
+        }}
+      />
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Section heading */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
+          variants={reveal}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
           className="mb-16 md:mb-24"
         >
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
-            About <span className="text-[var(--primary)]">Me</span>
+          <p className="text-sm tracking-[0.3em] text-[var(--primary)] mb-3 font-semibold uppercase">
+            About
+          </p>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
+            Engineering <span className="gradient-text">that solves real problems.</span>
           </h2>
-          <div className="w-20 h-1 bg-[var(--primary)] rounded-full"></div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          
-          {/* Left Column: Interactive Overlay Profile Card */}
+        {/* Asymmetric grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
+          {/* Profile card — col 1-5, slightly raised */}
           <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ 
-              duration: 0.8, 
-              delay: 0.2, 
-              ease: [0.16, 1, 0.3, 1] 
-            }}
-            className="lg:col-span-5 flex justify-center lg:justify-start"
+            custom={0}
+            variants={reveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="lg:col-span-5 lg:-mt-8 flex justify-center lg:justify-start"
           >
-            {/* The Base Card Container - ADDED onClick & DYNAMIC CLASSES */}
-            <div 
-              onClick={() => setIsFlipped(!isFlipped)}
-              className={`relative flex-shrink-0 group w-72 h-[360px] md:w-80 md:h-[400px] lg:w-96 lg:h-[480px] rounded-2xl overflow-hidden border-2 bg-[var(--card-bg)] transition-all duration-300 cursor-pointer ${
-                isFlipped 
-                  ? '-translate-y-2 border-[var(--primary)] shadow-[0_0_30px_rgba(0,240,255,0.4)]' 
-                  : 'border-[var(--border-color)] shadow-xl lg:hover:-translate-y-2 lg:hover:border-[var(--primary)] lg:hover:shadow-[0_0_30px_rgba(0,240,255,0.4)]'
+            <div
+              onClick={() => setIsFlipped((s) => !s)}
+              className={`relative group w-72 h-[360px] md:w-80 md:h-[400px] lg:w-full lg:max-w-md lg:h-[520px] rounded-3xl overflow-hidden glass-strong cursor-pointer transition-all duration-500 ${
+                isFlipped
+                  ? "-translate-y-2 border-[var(--primary)] shadow-[0_20px_60px_-12px_var(--glow)]"
+                  : "lg:hover:-translate-y-2 lg:hover:border-[var(--primary)] lg:hover:shadow-[0_20px_60px_-12px_var(--glow)]"
               }`}
             >
-              
-              {/* Background Image */}
               <Image
-                src="/profile1.jpg" 
+                src="/profile1.jpg"
                 alt="Aman Undre"
                 fill
                 className={`object-cover transition-transform duration-700 ${
-                  isFlipped ? 'scale-105' : 'lg:group-hover:scale-105'
+                  isFlipped ? "scale-105" : "lg:group-hover:scale-105"
                 }`}
-                sizes="(max-width: 768px) 288px, (max-width: 1024px) 320px, 384px"
+                sizes="(max-width: 768px) 288px, (max-width: 1024px) 320px, 448px"
                 priority
               />
 
-              {/* Smooth Slide-Up Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-t from-[var(--background)] via-[var(--background)]/90 to-transparent transition-all duration-500 ease-out p-6 flex flex-col justify-end items-center text-center pb-8 ${
-                isFlipped 
-                  ? 'opacity-100 translate-y-0' 
-                  : 'opacity-0 translate-y-8 lg:group-hover:opacity-100 lg:group-hover:translate-y-0'
-              }`}>
-                
-                {/* Glowing Icon */}
-                <div className={`p-3 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] mb-3 shadow-[0_0_15px_rgba(0,240,255,0.2)] transform transition-transform duration-500 delay-100 ${
-                  isFlipped ? 'translate-y-0' : 'translate-y-4 lg:group-hover:translate-y-0'
-                }`}>
-                  <Code2 className="w-6 h-6" />
+              {/* Slide-up overlay */}
+              <div
+                className={`absolute inset-0 bg-gradient-to-t from-[var(--background)] via-[var(--background)]/90 to-transparent p-6 flex flex-col justify-end items-center text-center transition-all duration-500 ${
+                  isFlipped
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8 lg:group-hover:opacity-100 lg:group-hover:translate-y-0"
+                }`}
+              >
+                <div className="p-3 rounded-full bg-[var(--primary)]/10 text-[var(--primary)] mb-3 shadow-[0_0_15px_var(--glow)]">
+                  <Code2 className="w-5 h-5" />
                 </div>
-
-                {/* Text Content */}
-                <h3 className="text-2xl font-bold text-[var(--foreground)] tracking-tight">Aman Undre</h3>
-                <p className="text-md font-medium text-[var(--primary)] mb-3">Full-Stack SDE</p>
-                
-                <p className={`text-sm text-slate-300 leading-relaxed px-2 mb-5 transition-opacity duration-500 delay-200 ${
-                  isFlipped ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'
-                }`}>
-                  Building scalable internal systems, APIs, and robust UIs at Firstclose Solution.
+                <h3 className="text-2xl font-bold tracking-tight">Aman Undre</h3>
+                <p className="text-md font-medium text-[var(--primary)] mb-3">
+                  Full-Stack SDE
                 </p>
-
-                {/* Tech Stack Pills */}
-                <div className={`flex flex-wrap justify-center gap-2 transition-opacity duration-500 delay-300 ${
-                  isFlipped ? 'opacity-100' : 'opacity-0 lg:group-hover:opacity-100'
-                }`}>
-                  <span className="text-xs font-semibold px-3 py-1 bg-[var(--foreground)] text-[var(--background)] rounded-full">React.js</span>
-                  <span className="text-xs font-semibold px-3 py-1 bg-[var(--foreground)] text-[var(--background)] rounded-full">Node.js</span>
-                  <span className="text-xs font-semibold px-3 py-1 bg-[var(--foreground)] text-[var(--background)] rounded-full">Express.js</span>
-                  <span className="text-xs font-semibold px-3 py-1 bg-[var(--foreground)] text-[var(--background)] rounded-full">MongoDB</span>
+                <p className="text-sm text-[var(--foreground-muted)] leading-relaxed mb-5">
+                  Building scalable internal systems, APIs and robust UIs at
+                  Firstclose Solutions.
+                </p>
+                <div className="flex flex-wrap justify-center gap-1.5">
+                  {["React", "Node", "Express", "MongoDB"].map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[var(--foreground)] text-[var(--background)]"
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
-                
               </div>
             </div>
           </motion.div>
 
-          {/* Right Column: Your Story (Remains exactly the same) */}
+          {/* Narrative — col 6-12 */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="lg:col-span-7 space-y-6 text-lg text-slate-500 dark:text-slate-300"
+            custom={1}
+            variants={reveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="lg:col-span-7 space-y-6 text-base md:text-lg text-[var(--foreground-muted)] leading-relaxed"
           >
             <p>
-              I build software that solves real business problems, not just projects for showcase.
-              Currently working as a Full-Stack Developer at Firstclose Solution, I have designed and developed multiple internal systems (AMS, CMS, HRMS) used daily by 50+ agents to manage operations, customer data, and workflows.
+              I build software that solves real business problems, not just
+              projects for the showcase. Currently working as a Full-Stack
+              Developer at{" "}
+              <span className="text-[var(--foreground)] font-semibold">
+                Firstclose Solutions
+              </span>
+              , I&apos;ve designed and developed multiple internal systems
+              (AMS, CMS, HRMS) used daily by 50+ agents to manage operations,
+              customer data and workflows.
             </p>
             <p>
-              My journey started with data analyzing & visualizing insights, but I quickly transitioned into development to build the systems behind those insights. Today, I combine a data-driven mindset with strong full-stack development skills to create scalable, practical, and performance-focused applications.
+              My journey started with data analytics and visualization, but I
+              quickly transitioned into development to build the systems
+              behind those insights. Today I combine a data-driven mindset
+              with strong full-stack engineering to ship scalable, practical
+              and performance-focused applications.
             </p>
             <p>
-              With nearly a year of hands-on industry experience, I focus on building reliable systems, optimizing workflows, and continuously improving my problem-solving skills through Data Structures and system design.
+              With nearly a year of hands-on industry experience, I focus on
+              reliable systems, workflow optimization and continuously
+              improving my problem-solving through DSA and system design.
             </p>
-            
-            {/* Quick Stats/Highlights */}
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 pt-6">
-              <div className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--primary)] transition-colors duration-300">
-                <h4 className="font-bold text-[var(--primary)] text-2xl mb-1">MERN</h4>
-                <p className="text-sm font-medium">Core Stack</p>
-              </div>
-              <div className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--primary)] transition-colors duration-300">
-                <h4 className="font-bold text-[var(--primary)] text-2xl mb-1">2025</h4>
-                <p className="text-sm font-medium">Graduation Year</p>
-              </div>
-              <div className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--card-bg)] hover:border-[var(--primary)] transition-colors duration-300">
-                <h4 className="font-bold text-[var(--primary)] text-2xl mb-1">Pune</h4>
-                <p className="text-sm font-medium">Location</p>
-              </div>
-            </div>
           </motion.div>
 
+          {/* Stats — full-width strip below grid */}
+          <motion.div
+            custom={2}
+            variants={reveal}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="lg:col-span-12 grid grid-cols-2 md:grid-cols-4 gap-4"
+          >
+            {stats.map((s) => {
+              const Icon = s.icon;
+              return (
+                <div
+                  key={s.label}
+                  className="group p-5 rounded-2xl glass hover:border-[var(--primary)] hover:-translate-y-1 transition-all duration-300"
+                >
+                  <Icon className="w-5 h-5 text-[var(--primary)] mb-3 group-hover:scale-110 transition-transform" />
+                  <h4 className="font-bold text-2xl mb-1 tracking-tight">
+                    {s.value}
+                  </h4>
+                  <p className="text-sm text-[var(--foreground-muted)]">
+                    {s.label}
+                  </p>
+                </div>
+              );
+            })}
+          </motion.div>
         </div>
       </div>
     </section>

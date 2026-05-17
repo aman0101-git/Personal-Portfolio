@@ -1,93 +1,163 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Download, Github, Linkedin } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import { ArrowRight, Download, Github, Linkedin, Sparkles } from "lucide-react";
 import Link from "next/link";
+import MagneticButton from "@/components/ui/MagneticButton";
+import GlowOrbs from "@/components/ui/GlowOrbs";
+
+/* --------------------------------------------------------------
+   Framer Motion variants — one parent container fades+stagger,
+   children just declare `variants={item}`. Keeps the JSX clean
+   and the reveal feels deliberately choreographed.
+   -------------------------------------------------------------- */
+const container: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+  },
+};
+
+const item: Variants = {
+  hidden: { opacity: 0, y: 24, filter: "blur(8px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+  },
+};
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      
-      {/* Background Neon Glow Effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] md:w-[800px] md:h-[800px] bg-[var(--primary)]/10 rounded-full blur-[100px] -z-10 pointer-events-none" />
-      
-      <div className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center z-10">
-        
-        {/* 'Available for work' Badge */}
+    <section
+      id="hero"
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden pt-24 pb-16"
+    >
+      {/* Animated mesh-gradient + drifting orbs backdrop */}
+      <div className="mesh-bg" aria-hidden>
+        <span />
+      </div>
+      <GlowOrbs variant="hero" />
+
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="max-w-7xl mx-auto px-6 flex flex-col items-center text-center z-10"
+      >
+        {/* "Available" status pill */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--border-color)] bg-[var(--card-bg)] backdrop-blur-sm mb-8"
+          variants={item}
+          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass mb-8"
         >
-          <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-          <span className="text-sm font-medium">Available for new opportunities</span>
+          <span className="relative flex">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-soft-pulse" />
+          </span>
+          <span className="text-xs sm:text-sm font-medium text-[var(--foreground-muted)]">
+            Available for new opportunities · Pune, IN
+          </span>
         </motion.div>
 
-        {/* Main Heading */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+        {/* Eyebrow line */}
+        <motion.p
+          variants={item}
+          className="text-sm font-mono tracking-widest uppercase text-[var(--foreground-muted)] mb-4 flex items-center gap-2"
         >
-          Hi, I'm <br className="md:hidden" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--primary)] to-purple-500">
-            Aman Undre
+          <Sparkles className="w-3.5 h-3.5 text-[var(--primary)]" />
+          Full-Stack Software Developer
+        </motion.p>
+
+        {/* Headline */}
+        <motion.h1
+          variants={item}
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-[8rem] font-bold tracking-[-0.04em] leading-[0.95] mb-6"
+        >
+          <span className="block text-[var(--foreground)]">Hi, I&apos;m Aman.</span>
+          <span className="block gradient-text">
+            I build systems
+            <br className="hidden sm:block" />
+            <span className="sm:hidden"> </span>
+            that scale.
           </span>
         </motion.h1>
 
-        {/* Subtitle / Role */}
+        {/* Subhead */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-lg md:text-2xl text-slate-500 dark:text-slate-400 max-w-2xl mb-10"
+          variants={item}
+          className="text-base md:text-xl text-[var(--foreground-muted)] max-w-2xl mb-10 leading-relaxed"
         >
-          Full-Stack Developer focused on building scalable internal tools and business systems, with hands-on experience delivering production-level applications used by 50+ users.
+          I architect production-grade enterprise platforms — Agent, Customer
+          and HR management systems — used daily by{" "}
+          <span className="text-[var(--foreground)] font-semibold">
+            50+ operators
+          </span>{" "}
+          to run real-world business workflows.
         </motion.p>
 
-        {/* CTA Buttons */}
+        {/* CTA buttons (magnetic on desktop, scale-tap on mobile) */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center gap-4"
+          variants={item}
+          className="flex flex-col sm:flex-row items-center gap-4 mb-14"
         >
-          <Link 
-            href="#projects"
-            className="flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--foreground)] text-[var(--background)] font-semibold hover:scale-105 transition-transform duration-300"
-          >
-            View My Work <ArrowRight className="w-4 h-4" />
-          </Link>
-          
-          <Link 
-            href="/resume.pdf" 
+          <MagneticButton strength={16}>
+            <Link
+              href="#projects"
+              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full bg-[var(--foreground)] text-[var(--background)] font-semibold shadow-lg hover:shadow-[0_0_32px_var(--glow)] active:scale-95 transition-all"
+            >
+              View My Work
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </MagneticButton>
+
+          <MagneticButton strength={12}>
+            <Link
+              href="/resume.pdf"
+              target="_blank"
+              className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full glass hover:border-[var(--primary)] font-semibold active:scale-95 transition-colors"
+            >
+              Download Resume
+              <Download className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+            </Link>
+          </MagneticButton>
+        </motion.div>
+
+        {/* Social row */}
+        <motion.div variants={item} className="flex items-center gap-6">
+          <Link
+            href="https://github.com/aman0101-git"
             target="_blank"
-            className="flex items-center gap-2 px-8 py-4 rounded-full border border-[var(--border-color)] hover:bg-[var(--card-bg)] font-semibold hover:scale-105 transition-transform duration-300"
+            aria-label="GitHub"
+            className="text-[var(--foreground-muted)] hover:text-[var(--primary)] hover:-translate-y-0.5 transition-all"
           >
-            Download Resume <Download className="w-4 h-4" />
+            <Github className="w-6 h-6" />
+          </Link>
+          <Link
+            href="https://www.linkedin.com/in/aman-undre-0a1b0c1d/"
+            target="_blank"
+            aria-label="LinkedIn"
+            className="text-[var(--foreground-muted)] hover:text-[var(--primary)] hover:-translate-y-0.5 transition-all"
+          >
+            <Linkedin className="w-6 h-6" />
           </Link>
         </motion.div>
 
-        {/* Social Links */}
+        {/* Scroll cue */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="flex items-center gap-6 mt-12"
+          variants={item}
+          className="hidden md:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2 text-[var(--foreground-muted)]"
         >
-          <Link href="https://github.com/aman0101-git" target="_blank" className="text-slate-500 hover:text-[var(--primary)] transition-colors duration-300">
-            <Github className="w-7 h-7" />
-            <span className="sr-only">GitHub</span>
-          </Link>
-          <Link href="https://www.linkedin.com/in/aman-undre-0a1b0c1d/" target="_blank" className="text-slate-500 hover:text-[var(--primary)] transition-colors duration-300">
-            <Linkedin className="w-7 h-7" />
-            <span className="sr-only">LinkedIn</span>
-          </Link>
+          <span className="text-[10px] font-mono tracking-[0.3em] uppercase">
+            Scroll
+          </span>
+          <motion.span
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            className="w-px h-10 bg-gradient-to-b from-[var(--primary)] to-transparent"
+          />
         </motion.div>
-
-      </div>
+      </motion.div>
     </section>
   );
 }
