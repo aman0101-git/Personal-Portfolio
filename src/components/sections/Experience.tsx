@@ -9,24 +9,27 @@ import {
   ChevronRight,
   Building2,
   Laptop,
+  BarChart3,
 } from "lucide-react";
 import { useGsapScroll } from "@/lib/useGsap";
 
 const experiences = [
   {
     id: 1,
-    role: "Full-Stack Developer",
+    role: "Software Developer",
     company: "Firstclose Solutions",
     type: "Full-time",
     location: "Pune, Maharashtra, India · On-site",
     duration: "Dec 2025 - Present",
     icon: Building2,
     description: [
-      "Designed and built three production internal platforms (AMS, CMS, HRMS) used by company operations to manage agents, customers, and workflow tracking.",
-      "Developed a custom dialer-integrated Customer & Agent Management System enabling 50+ operational agents to manage real estate and financial collection workflows efficiently.",
-      "Owned the entire SDLC including requirement gathering, system architecture, database schema design, API development, UI implementation, testing, and deployment.",
+      "Architected and shipped four internal enterprise platforms — AMS, CMS, QAMS and HRMS — used daily by 50+ agents, supervisors and admins to run BPO operations end to end.",
+      "Built a dialer-integrated AMS letting 50+ agents track loan-collection activity, manage customer interactions and log dispositions in real time, replacing manual spreadsheet tracking.",
+      "Developed QAMS to digitize quality audits — scoring agent calls against weighted parameters with auto-generated scorecards and an immutable, tamper-evident audit trail.",
+      "Engineered REST APIs and normalized MySQL schemas with TypeScript, Node.js, Express and NestJS to support concurrent multi-role (agent / supervisor / admin) access.",
+      "Owned the full SDLC per platform — requirement analysis, schema design, backend APIs, React frontend and deployment.",
     ],
-    skills: ["React.js", "Node.js", "Express.js", "MySQL", "Full-Stack Architecture"],
+    skills: ["React.js", "TypeScript", "NestJS", "Express.js", "MySQL", "Prisma", "REST APIs"],
   },
   {
     id: 2,
@@ -37,11 +40,25 @@ const experiences = [
     duration: "Jun 2025 - Nov 2025",
     icon: Laptop,
     description: [
-      "Developed production-ready full-stack web applications using the MERN stack, significantly improving application performance and scalability.",
-      "Contributed to end-to-end development, including PRD analysis, architecture planning, database design, frontend UI development, and backend API implementation.",
-      "Collaborated with cross-functional teams to debug issues, deploy updates using Git/GitHub, and improve code quality through code reviews.",
+      "Built HangarHQ, a DGCA exam-prep platform (MERN), implementing mock-test engines, performance analytics, JWT authentication and secure sessions over a 17,000+ question bank.",
+      "Built Arrivo, an MVC travel-booking platform with Passport.js auth, Leaflet interactive maps, Cloudinary image uploads and EJS server-side rendering.",
+      "Optimized Mongoose schemas to reduce query times and collaborated via Git/GitHub on code reviews, debugging and deployments.",
     ],
-    skills: ["MongoDB", "Express.js", "React.js", "Node.js", "Git/GitHub", "API Development"],
+    skills: ["MongoDB", "Express.js", "React.js", "Node.js", "Mongoose", "JWT Auth"],
+  },
+  {
+    id: 3,
+    role: "Data Analyst Intern",
+    company: "Codaaz Software Pvt. Ltd.",
+    type: "Internship",
+    location: "Remote",
+    duration: "Jan 2025 - May 2025",
+    icon: BarChart3,
+    description: [
+      "Built interactive dashboards and reports using Python, SQL, Excel and Power BI to support business-intelligence decisions across internal teams.",
+      "Translated raw operational data into clear visual insights, laying the analytical foundation that later drove my move into full-stack development.",
+    ],
+    skills: ["Python", "SQL", "Power BI", "Excel", "Data Visualization"],
   },
 ];
 

@@ -72,24 +72,19 @@ export default function Hero() {
         {/* Headline */}
         <motion.h1
           variants={item}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-[8rem] font-bold tracking-[-0.04em] leading-[0.95] mb-6"
+          className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-[-0.03em] leading-[1.05] mb-6 text-balance max-w-4xl"
         >
           <span className="block text-[var(--foreground)]">Hi, I&apos;m Aman.</span>
-          <span className="block gradient-text">
-            I build systems
-            <br className="hidden sm:block" />
-            <span className="sm:hidden"> </span>
-            that scale.
-          </span>
+          <span className="block gradient-text">I build systems that scale.</span>
         </motion.h1>
 
         {/* Subhead */}
         <motion.p
           variants={item}
-          className="text-base md:text-xl text-[var(--foreground-muted)] max-w-2xl mb-10 leading-relaxed"
+          className="text-base md:text-lg text-[var(--foreground-muted)] max-w-xl mb-10 leading-relaxed text-balance"
         >
-          I architect production-grade enterprise platforms — Agent, Customer
-          and HR management systems — used daily by{" "}
+          Full-stack developer architecting production enterprise platforms —
+          agent, collections, quality-audit and HR systems — used daily by{" "}
           <span className="text-[var(--foreground)] font-semibold">
             50+ operators
           </span>{" "}

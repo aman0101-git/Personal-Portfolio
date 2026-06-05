@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
-import { Code2, MapPin, GraduationCap, Layers } from "lucide-react";
+import { Code2, Building2, Briefcase, Rocket, Layers } from "lucide-react";
 
 /* --------------------------------------------------------------
    ASYMMETRIC GRID — on desktop we use a 12-col layout where the
@@ -23,9 +23,9 @@ const reveal: Variants = {
 
 const stats = [
   { value: "50+", label: "Daily Users Served", icon: Layers },
-  { value: "3", label: "Production Platforms", icon: Code2 },
-  { value: "2025", label: "Year of Graduation", icon: GraduationCap },
-  { value: "Pune, IN", label: "Based In", icon: MapPin },
+  { value: "4", label: "Enterprise Platforms", icon: Building2 },
+  { value: "1+ yr", label: "Industry Experience", icon: Briefcase },
+  { value: "6", label: "Projects Shipped", icon: Rocket },
 ];
 
 export default function About() {
@@ -112,7 +112,7 @@ export default function About() {
                   Firstclose Solutions.
                 </p>
                 <div className="flex flex-wrap justify-center gap-1.5">
-                  {["React", "Node", "Express", "MongoDB"].map((t) => (
+                  {["React", "TypeScript", "NestJS", "MySQL"].map((t) => (
                     <span
                       key={t}
                       className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-[var(--foreground)] text-[var(--background)]"
@@ -136,26 +136,29 @@ export default function About() {
           >
             <p>
               I build software that solves real business problems, not just
-              projects for the showcase. Currently working as a Full-Stack
-              Developer at{" "}
+              projects for the showcase. As a Full-Stack Developer at{" "}
               <span className="text-[var(--foreground)] font-semibold">
                 Firstclose Solutions
               </span>
-              , I&apos;ve designed and developed multiple internal systems
-              (AMS, CMS, HRMS) used daily by 50+ agents to manage operations,
-              customer data and workflows.
+              , I&apos;ve architected and shipped four production platforms —{" "}
+              <span className="text-[var(--foreground)] font-semibold">
+                AMS, CMS, QAMS and HRMS
+              </span>{" "}
+              — used daily by 50+ agents, supervisors and admins to run BPO
+              operations end to end.
             </p>
             <p>
-              My journey started with data analytics and visualization, but I
-              quickly transitioned into development to build the systems
-              behind those insights. Today I combine a data-driven mindset
-              with strong full-stack engineering to ship scalable, practical
-              and performance-focused applications.
+              My journey started in data analytics and visualization, but I
+              quickly moved into development to build the systems behind those
+              insights. Today I combine a data-driven mindset with strong
+              full-stack engineering across React, TypeScript, Node/NestJS and
+              SQL to ship scalable, performance-focused applications.
             </p>
             <p>
-              With nearly a year of hands-on industry experience, I focus on
-              reliable systems, workflow optimization and continuously
-              improving my problem-solving through DSA and system design.
+              With over a year of hands-on industry experience across
+              internship and full-time roles, I focus on reliable systems, REST
+              API and schema design, and owning features end to end — from
+              requirement analysis through deployment.
             </p>
           </motion.div>
 

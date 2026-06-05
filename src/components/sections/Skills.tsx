@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import {
   Code2, Database, Server, Layout, FileJson, Cpu, Globe, Terminal,
   Palette, Brush, ShieldCheck, Send, Layers, GitBranch, Github,
-  TerminalSquare, Box, Network, RefreshCw, Cloud, Bot, LayoutTemplate,
+  TerminalSquare, Box, Network, RefreshCw, Cloud, LayoutTemplate,
 } from "lucide-react";
 
 const frontendSkills = [
@@ -12,34 +12,35 @@ const frontendSkills = [
   { name: "Next.js", icon: Globe },
   { name: "TypeScript", icon: FileJson },
   { name: "JavaScript", icon: Code2 },
-  { name: "HTML5", icon: Globe },
+  { name: "HTML5", icon: LayoutTemplate },
   { name: "CSS3", icon: Palette },
   { name: "Tailwind CSS", icon: Brush },
-  { name: "Bootstrap", icon: LayoutTemplate },
+  { name: "Material UI", icon: Layers },
   { name: "Framer Motion", icon: Cpu },
 ];
 
 const backendSkills = [
   { name: "Node.js", icon: Server },
   { name: "Express", icon: Server },
+  { name: "NestJS", icon: Server },
+  { name: "MySQL", icon: Database },
   { name: "MongoDB", icon: Database },
-  { name: "PostgreSQL", icon: Database },
+  { name: "Prisma", icon: Database },
   { name: "Java", icon: Terminal },
-  { name: "RESTful APIs", icon: Network },
-  { name: "JWT / OAuth", icon: ShieldCheck },
-  { name: "Postman", icon: Send },
-  { name: "System Architecture", icon: Layers },
+  { name: "Python", icon: Terminal },
+  { name: "REST APIs", icon: Network },
+  { name: "JWT Auth", icon: ShieldCheck },
 ];
 
 const toolSkills = [
   { name: "Git", icon: GitBranch },
   { name: "GitHub", icon: Github },
   { name: "VS Code", icon: TerminalSquare },
+  { name: "Postman", icon: Send },
   { name: "Docker", icon: Box },
-  { name: "Kubernetes", icon: Network },
   { name: "CI/CD", icon: RefreshCw },
   { name: "Render", icon: Cloud },
-  { name: "Copilot", icon: Bot },
+  { name: "Vercel", icon: Cloud },
 ];
 
 /* Staggered fade-in for the section heading + each marquee row. */
