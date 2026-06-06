@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://amanundre.com"),
   title: "Aman Undre | Full-Stack Developer",
   description: "Portfolio of Aman Undre, a Full-Stack Developer specializing in the MERN stack, Next.js, and building scalable enterprise internal tools.",
   keywords: [
