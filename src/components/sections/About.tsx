@@ -82,7 +82,7 @@ export default function About() {
               }`}
             >
               <Image
-                src="/profile2.png"
+                src="/profile3.png"
                 alt="Aman Undre"
                 fill
                 className={`object-cover transition-transform duration-700 ${

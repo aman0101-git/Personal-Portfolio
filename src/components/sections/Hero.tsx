@@ -108,7 +108,7 @@ export default function Hero() {
 
           <MagneticButton strength={12}>
             <Link
-              href="/resume.pdf"
+              href="/Aman_Undre_Resume.pdf"
               target="_blank"
               className="group inline-flex items-center gap-2 px-7 py-3.5 rounded-full glass hover:border-[var(--primary)] font-semibold active:scale-95 transition-colors"
             >
